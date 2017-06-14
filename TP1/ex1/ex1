@@ -1,0 +1,91 @@
+notes <- read.csv("sy02-p2016.csv", na.strings="", header=T)
+notes$nom <- factor(notes$nom, levels=notes$nom)
+notes$correcteur.median <- factor(notes$correcteur.median, levels=c("Cor1","Cor2","Cor3","Cor4","Cor5","Cor6","Cor7","Cor8"))
+notes$correcteur.final <- factor(notes$correcteur.final, levels=c("Cor1","Cor2","Cor3","Cor4","Cor5","Cor6","Cor7","Cor8"))
+notes$niveau <- factor(notes$niveau, ordered=T)
+notes$resultat <- factor(notes$resultat, levels=c("F","Fx","E","D","C","B","A"), ordered=T)
+
+#summary
+summary(notes)
+#clean NA value
+notes = na.omit(notes)
+
+#general repartition
+png("TP1/ex1/plotSpecialite.png")
+plot(notes$specialite, main="repartition par specialite", col = c("green","purple","dark blue", "dark green", "blue", "red", "black", "grey", "brown"))
+dev.off()
+cat("plotSpecialite.png sauvegardee\n")
+
+png("TP1/ex1/plotResultat.png")
+plot(notes$resultat, main="resultats", col = c("red","red","dark green","dark green","dark green","dark green","green"))
+dev.off()
+cat("plotResultat.png sauvegardee\n")
+
+# SELECT resultat FROM notes WHERE notes == 'specialite XX';
+XGSM = notes$resultat[notes$specialite == 'GSM']
+XGM = notes$resultat[notes$specialite == 'GM']
+XISS = notes$resultat[notes$specialite == 'ISS']
+XTC = notes$resultat[notes$specialite == 'TC']
+XHuTech = notes$resultat[notes$specialite == 'HuTech']
+XGI = notes$resultat[notes$specialite == 'GI']
+XGP = notes$resultat[notes$specialite == 'GP']
+XGSU = notes$resultat[notes$specialite == 'GSU']
+XGB = notes$resultat[notes$specialite == 'GB']
+
+png(file = "TP1/ex1/boxplotResultatSpecialite.png")
+boxplot(XGI, XGB, XGSU,XGP,XGSM,XGM,XISS,XTC,
+	main = "Comparaison des resultats des branches",  
+	col = c("blue", "red","green","orange","purple","dark blue","brown","grey","yellow"), 
+	names = c("GI", "GB","GSU","GP","GSM","GM","ISS","TC"), 
+	ylab = "resultats", 
+	notch = FALSE,
+	las=1)
+dev.off()
+
+# SELECT note median FROM notes WHERE correcteur == 'correcteur XX';
+XCor1 = notes$note.median[notes$correcteur.median == 'Cor1']
+XCor2 = notes$note.median[notes$correcteur.median == 'Cor2']
+XCor3 = notes$note.median[notes$correcteur.median == 'Cor3']
+XCor4 = notes$note.median[notes$correcteur.median == 'Cor4']
+XCor5 = notes$note.median[notes$correcteur.median == 'Cor5']
+XCor6 = notes$note.median[notes$correcteur.median == 'Cor6']
+XCor7 = notes$note.median[notes$correcteur.median == 'Cor7']
+XCor8 = notes$note.median[notes$correcteur.median == 'Cor8']
+
+png(file = "TP1/ex1/boxplotMedianCorrecteur.png")
+boxplot(XCor1, XCor2, XCor3, XCor4, XCor5, XCor6, XCor7, XCor8,
+	main = "Comparaison des resultats du médian selon le correcteur",  
+	col = c("blue", "red","green","orange","purple","dark blue","brown","grey","yellow"), 
+	names = c("1", "2","3","4","5","6","7","8"), 
+	xlab = "correcteur", 
+	ylab = "resultats", 
+	notch = FALSE,
+	las=1)
+dev.off()
+
+# SELECT note final FROM notes WHERE correcteur == 'correcteur XX';
+YCor1 = notes$note.final[notes$correcteur.final == 'Cor1']
+YCor2 = notes$note.final[notes$correcteur.final == 'Cor2']
+YCor3 = notes$note.final[notes$correcteur.final == 'Cor3']
+YCor4 = notes$note.final[notes$correcteur.final == 'Cor4']
+YCor5 = notes$note.final[notes$correcteur.final == 'Cor5']
+YCor6 = notes$note.final[notes$correcteur.final == 'Cor6']
+YCor7 = notes$note.final[notes$correcteur.final == 'Cor7']
+YCor8 = notes$note.final[notes$correcteur.final == 'Cor8']
+
+png(file = "TP1/ex1/boxplotFinalCorrecteur.png")
+boxplot(YCor1, YCor2, YCor3, YCor4, YCor5, YCor6, YCor7, YCor8,
+	main = "Comparaison des resultats du fianl selon le correcteur",  
+	col = c("blue", "red","green","orange","purple","dark blue","brown","grey","yellow"), 
+	names = c("1", "2","3","4","5","6","7","8"), 
+	xlab = "correcteur", 
+	ylab = "resultats", 
+	notch = FALSE,
+	las=1)
+dev.off()
+
+#correlation 
+cor(cbind(notes$note.median,notes$note.final,notes$note.totale))
+
+
+
