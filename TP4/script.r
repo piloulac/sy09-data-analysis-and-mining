@@ -3,6 +3,7 @@ library(MASS)
 library(tree)
 #first set your setwd() to the main directory
 #path to the working directory on the SY09 computer : setwd("Z:/Documents/SY09/TP4")
+setwd("/Users/pierrelouislacorte/SY09/TP4")
 #import function from fonction directory
 setwd("fonctions")
 # A COMPLETER
